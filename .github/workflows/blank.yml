@@ -29,6 +29,6 @@ jobs:
       # Step 4: Push the changes back to the main branch
       - name: Push changes
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
         run: |
-          git push "https://${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git" main
+          git push "https://${{ secrets.GITHUB_TOKEN  }}@github.com/${{ github.repository }}.git" main
