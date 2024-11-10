@@ -1,0 +1,34 @@
+name: Manual Commit
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scheduled_commit_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Step 2: Make a change to a file or add any required content
+      - name: Make changes to files
+        run: |
+          # Modify or create a file in the repo
+          echo "Automated update: $(date)" >> update_log.txt
+
+      # Step 3: Commit the changes
+      - name: Commit changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add update_log.txt
+          git commit -m "Automated commit: $(date)"
+        
+      # Step 4: Push the changes back to the main branch
+      - name: Push changes
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git push "https://${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git" main
